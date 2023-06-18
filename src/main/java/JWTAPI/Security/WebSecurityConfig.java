@@ -30,12 +30,12 @@ public class WebSecurityConfig {
 
         JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
         jwtAuthenticationFilter.setAuthenticationManager(authManager);
-        jwtAuthenticationFilter.setFilterProcessesUrl("/login");     
+        jwtAuthenticationFilter.setFilterProcessesUrl("/api/Auth");     
 
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll()
+                        //.requestMatchers("/api/Auth").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(x -> x.authenticationEntryPoint((request, response, authException) -> {
                     ApiResponse<String> apiResponse = new ApiResponse<String>(null);
