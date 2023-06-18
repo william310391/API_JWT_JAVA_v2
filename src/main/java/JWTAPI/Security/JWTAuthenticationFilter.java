@@ -64,3 +64,5 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
     
 }
+
+///https://stackoverflow.com/questions/44697883/can-you-completely-disable-cors-support-in-spring
