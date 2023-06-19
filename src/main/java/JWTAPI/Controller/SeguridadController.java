@@ -16,10 +16,16 @@ public class SeguridadController {
     @Autowired
     SeguridadService seguridadService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody SeguridadDTO seguridadDTO){
+    @PostMapping("/LoginUsuario")
+    public ResponseEntity<?> LoginUsuario(@RequestBody SeguridadDTO seguridadDTO){
         return seguridadService.LoginUsuario(seguridadDTO);
     }
+
+    @PostMapping("/RegistrarUsuario")
+    public ResponseEntity<?> RegistrarUsuario(@RequestBody SeguridadDTO seguridadDTO){
+        return seguridadService.RegistrarUsuario(seguridadDTO);
+    }
+
 
     
 }

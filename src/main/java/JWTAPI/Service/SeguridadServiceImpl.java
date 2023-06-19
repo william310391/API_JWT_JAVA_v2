@@ -1,8 +1,11 @@
 package JWTAPI.Service;
 
+import java.util.Objects;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,14 +13,17 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import JWTAPI.DTO.ApiResponse;
 import JWTAPI.DTO.SeguridadDTO;
+import JWTAPI.DTO.MapperConfig.SeguridadMapper;
 import JWTAPI.Entity.Seguridad;
+import JWTAPI.Exception.BusinessException;
 import JWTAPI.Repository.SeguridadRepository;
 import JWTAPI.Security.TokenUtils;
+import JWTAPI.Security.UserDetailServiceImpl;
 
 @Service
 public class SeguridadServiceImpl implements SeguridadService {
@@ -27,7 +33,7 @@ public class SeguridadServiceImpl implements SeguridadService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserDetailServiceImpl userDetailsService;
 
     protected final Log logger = LogFactory.getLog(getClass());
 
@@ -36,16 +42,14 @@ public class SeguridadServiceImpl implements SeguridadService {
         ApiResponse<SeguridadDTO> response = new ApiResponse<SeguridadDTO>(null);
 
         try {
-            Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(seguridadDTO.getUsuario(), seguridadDTO.getContrasena()));
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(seguridadDTO.getUsuario(), seguridadDTO.getContrasena()));
+            
             if (auth.isAuthenticated()) {
                 logger.info("Logged In");
                 UserDetails userDetails = userDetailsService.loadUserByUsername(seguridadDTO.getUsuario());
                 String token = TokenUtils.generateToken(userDetails);
-                SeguridadDTO dto = new SeguridadDTO();
                 Seguridad datosUsuario= seguridadRepository.findSeguridadByUsuario(userDetails.getUsername());
-                dto.setNombre(datosUsuario.getNombre());
-                dto.setUsuario(datosUsuario.getUsuario());
+                SeguridadDTO dto = SeguridadMapper.INSTANCE.seguridadToSeguridadDTO(datosUsuario);
                 dto.setToken(token);
                 response.setData(dto);
                 response.setCodigoHTTP(200);
@@ -74,4 +78,25 @@ public class SeguridadServiceImpl implements SeguridadService {
         return ResponseEntity.status(response.getCodigoHTTP()).body(response);
     }
 
+    @Override
+    public ResponseEntity<?> RegistrarUsuario(SeguridadDTO seguridadDTO) {
+
+        if (!Objects.isNull(seguridadRepository.findSeguridadByUsuario(seguridadDTO.getUsuario()))){
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "El usuario se encuentra registrado");
+        }
+        logger.info("Register");
+        ApiResponse<SeguridadDTO> response = new ApiResponse<SeguridadDTO>(null);
+
+        Seguridad seguridad = SeguridadMapper.INSTANCE.seguridadDTOToSeguridad(seguridadDTO);
+        seguridad.setContrasena(new BCryptPasswordEncoder().encode(seguridadDTO.getContrasena()));
+        seguridadRepository.save(seguridad);
+
+        UserDetails userDetails = userDetailsService.createUserDetails(seguridadDTO.getUsuario(), seguridadDTO.getContrasena());
+
+        seguridadDTO = SeguridadMapper.INSTANCE.seguridadToSeguridadDTO(seguridad);
+        seguridadDTO.setToken(TokenUtils.generateToken(userDetails));
+        response.setData(seguridadDTO);
+
+        return ResponseEntity.ok(response);
+    }
 }

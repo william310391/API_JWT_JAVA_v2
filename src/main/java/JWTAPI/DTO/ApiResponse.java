@@ -15,7 +15,6 @@ public class ApiResponse<T> {
     ResultadoDescripcion = "OK";
   }
 
-  String Token;
   int CodigoHTTP;
   String ResultadoDescripcion;
   int ResultadoIndicador;
