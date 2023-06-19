@@ -26,16 +26,12 @@ public class WebSecurityConfig {
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager authManager) throws Exception {    
-
-        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
-        jwtAuthenticationFilter.setAuthenticationManager(authManager);
-        jwtAuthenticationFilter.setFilterProcessesUrl("/api/Auth");     
+    SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager authManager) throws Exception {
 
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        //.requestMatchers("/api/Auth").permitAll()
+                        .requestMatchers("/api/seguridad/*").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(x -> x.authenticationEntryPoint((request, response, authException) -> {
                     ApiResponse<String> apiResponse = new ApiResponse<String>(null);
@@ -49,7 +45,7 @@ public class WebSecurityConfig {
                     response.getWriter().write(responseMsg);}))
 
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilter(jwtAuthenticationFilter)
+                // .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

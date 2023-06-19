@@ -6,13 +6,13 @@ import java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import JWTAPI.Entity.Usuario;
+import JWTAPI.Entity.Seguridad;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    private final Usuario usuario;
+    private final Seguridad seguridad;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -21,12 +21,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return usuario.getContrasena();
+        return seguridad.getContrasena();
     }
 
     @Override
     public String getUsername() {
-        return usuario.getCuenta();
+        return seguridad.getUsuario();
     }
 
     @Override
@@ -50,7 +50,13 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public String getNombre() {
-        return usuario.getNombres();
+        return seguridad.getNombre();
     }
+
+    public int getId(){
+        return seguridad.getId();
+    }
+
+    
 
 }
