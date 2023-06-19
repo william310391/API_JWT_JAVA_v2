@@ -7,20 +7,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import JWTAPI.Entity.Usuario;
-import JWTAPI.Repository.UsuarioRepository;
+import JWTAPI.Entity.Seguridad;
+import JWTAPI.Repository.SeguridadRepository;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private SeguridadRepository seguridadRepository;
 
     @Override
     public UserDetails loadUserByUsername(String cuenta) throws UsernameNotFoundException {
 
-        Usuario usuario = usuarioRepository.findUsuarioByCuenta(cuenta);     
-        return new UserDetailsImpl(usuario);
+        Seguridad seguridad = seguridadRepository.findSeguridadByUsuario(cuenta);     
+        return new UserDetailsImpl(seguridad);
 
     }
 

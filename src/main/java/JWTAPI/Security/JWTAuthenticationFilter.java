@@ -6,6 +6,7 @@ import java.util.Collections;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import JWTAPI.DTO.ApiResponse;
+import JWTAPI.DTO.SeguridadDTO;
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -52,8 +53,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         //response.addHeader("Authorization", "Bearer " + token);
         
-        ApiResponse<String> apiResponse = new ApiResponse<String>(null);
-        apiResponse.setToken(token);
+        ApiResponse<SeguridadDTO> apiResponse = new ApiResponse<SeguridadDTO>( new SeguridadDTO());
+
+        SeguridadDTO dto = new SeguridadDTO();
+        dto.setToken(token);
+        dto.setNombre(userDetails.getNombre());
+        dto.setUsuario(userDetails.getUsername());
+        dto.setId(userDetails.getId());
+
+        apiResponse.setData(dto);
         response.getWriter().write(new ObjectMapper().writeValueAsString(apiResponse));
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
