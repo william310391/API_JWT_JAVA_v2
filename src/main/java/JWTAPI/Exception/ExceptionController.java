@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,8 +35,11 @@ public class ExceptionController {
         response.setResultadoIndicador(0);
 
         List<String> lista = new ArrayList<String>();
-        ex.getBindingResult().getAllErrors().forEach((error)->{
-            String fieldName =  "pruebaaa";//((FieldError) error).getField();
+
+        BindingResult result = ex.getBindingResult();
+        List<org.springframework.validation.FieldError> fieldErrors = result.getFieldErrors();
+        fieldErrors.forEach((error)->{
+            String fieldName = error.getField();
             String message = error.getDefaultMessage();
             lista.add(fieldName+ " : " + message);
         });

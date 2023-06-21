@@ -2,12 +2,14 @@ package JWTAPI.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import JWTAPI.DTO.SeguridadDTO;
+import JWTAPI.Exception.ValidationGroup.Login;
 import JWTAPI.Service.SeguridadService;
 
 @RestController
@@ -17,7 +19,7 @@ public class SeguridadController {
     SeguridadService seguridadService;
 
     @PostMapping("/LoginUsuario")
-    public ResponseEntity<?> LoginUsuario(@RequestBody SeguridadDTO seguridadDTO){
+    public ResponseEntity<?> LoginUsuario(@Validated({Login.class})@RequestBody SeguridadDTO seguridadDTO){
         return seguridadService.LoginUsuario(seguridadDTO);
     }
 
