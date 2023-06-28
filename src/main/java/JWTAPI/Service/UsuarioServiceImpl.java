@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import JWTAPI.DTO.ApiResponse;
@@ -90,8 +91,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             if (Objects.isNull(entVal)) {
                 throw new BusinessException(HttpStatus.BAD_REQUEST, "cuenta no valida");
             }
-            if(!entVal.getContrasena().equals(usuarioDTO.getContrasena())) {
-                throw new BusinessException(HttpStatus.BAD_REQUEST, "cuenta o conytaseña no valida");
+            if(!new BCryptPasswordEncoder().matches(usuarioDTO.getContrasena(),entVal.getContrasena())) {
+                throw new BusinessException(HttpStatus.BAD_REQUEST, "cuenta o contraseña no valida");
             }          
             usuarioDTO=UsuarioMapper.INSTANCE.usuarioToUsuarioDTO(entVal);
             return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse<UsuarioDTO>(usuarioDTO));            
