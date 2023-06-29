@@ -54,7 +54,7 @@ public class SeguridadServiceImpl implements SeguridadService {
                 response.setData(dto);
                 response.setCodigoHTTP(200);
                 response.setResultadoDescripcion("Logged In");
-                response.setResultadoIndicador(1);
+                response.setResultadoIndicador(true);
             }
 
         } catch (DisabledException e) {

@@ -38,7 +38,7 @@ public class WebSecurityConfig {
                     ApiResponse<String> apiResponse = new ApiResponse<String>(null);
                     apiResponse.setCodigoHTTP(HttpStatus.FORBIDDEN.value());
                     apiResponse.setResultadoDescripcion("Token no valido");
-                    apiResponse.setResultadoIndicador(0);
+                    apiResponse.setResultadoIndicador(false);
                     ObjectMapper mapper = new ObjectMapper();
                     response.setStatus(401);
                     response.setHeader("content-type", "application/json");

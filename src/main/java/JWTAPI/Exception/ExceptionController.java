@@ -22,7 +22,7 @@ public class ExceptionController {
         ApiResponse<String> response = new ApiResponse<String>(null);
         response.setCodigoHTTP(ex.getStatus().value());
         response.setResultadoDescripcion(ex.getMessage());
-        response.setResultadoIndicador(0);
+        response.setResultadoIndicador(false);
         return new ResponseEntity<>(response, ex.getStatus());
     }
 
@@ -32,7 +32,7 @@ public class ExceptionController {
         ApiResponse<String> response = new ApiResponse<String>(null);
         response.setCodigoHTTP(HttpStatus.BAD_REQUEST.value());
         response.setResultadoDescripcion("Existen campos que son requeridos");
-        response.setResultadoIndicador(0);
+        response.setResultadoIndicador(false);
 
         List<String> lista = new ArrayList<String>();
 
