@@ -14,10 +14,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 @Entity
 @AttributeOverrides({
-	@AttributeOverride(name="id",column=@Column(name="id"))
+	@AttributeOverride(name="id",column=@Column(name="IDUSUARIO"))
 })
 @Table(name = "Usuario")
-
 public class Usuario extends BaseEntity implements Serializable {
 
 	@Column(name = "nombres")
