@@ -21,4 +21,5 @@ public class SeguridadDTO {
 	String contrasena;
 	String correo;
     String token;
+	boolean estado;
 }

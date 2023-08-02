@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
 })
 @Table(name = "Menu_Pagina")
 public class MenuPagina extends BaseEntity implements Serializable {
-    @Column(name = "idMenu")
+    @Column(name = "IDMENU")
     int idMenu;
-    @Column(name = "idPagina")
+    @Column(name = "IDPAGINA")
     int idPagina;
 }

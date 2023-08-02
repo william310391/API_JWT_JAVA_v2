@@ -14,12 +14,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 @Entity
 @AttributeOverrides({
-	@AttributeOverride(name="id",column=@Column(name="IDROLMENU"))
+	@AttributeOverride(name="id",column=@Column(name="IDROLPAGINA"))
 })
-@Table(name = "Rol_Menu")
-public class RolMenu extends BaseEntity implements Serializable {
-    @Column(name = "idRol")
+@Table(name = "Rol_Pagina")
+public class RolPagina extends BaseEntity implements Serializable {
+    @Column(name = "IDROL")
     int idRol;
-    @Column(name = "idMenu")
-    int idMenu;
+    @Column(name = "IDPAGINA")
+    int idPagina;
 }

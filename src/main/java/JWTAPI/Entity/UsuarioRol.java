@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
 })
 @Table(name = "Usuario_Rol")
 public class UsuarioRol extends BaseEntity implements Serializable {
-    @Column(name = "idUsuario")
+    @Column(name = "IDUSUARIO")
     int idUsuario;
-    @Column(name = "idRol")
+    @Column(name = "IDROL")
     int idRol;    
 }
