@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import JWTAPI.DTO.BuscarDTO;
 import JWTAPI.DTO.UsuarioDTO;
 import JWTAPI.Exception.ValidationGroup.Login;
 import JWTAPI.Service.MenuService;
@@ -66,6 +67,13 @@ public class UsuarioController {
     public ResponseEntity<?> GetAccesoByIdUsuario(@RequestBody UsuarioDTO dto){
         return _menuService.GetAccesoByIdUsuario(dto);
     }
+
+    @PostMapping("/findUsuarioByNombreCuenta")
+    public ResponseEntity<?> findUsuarioByNombreCuenta(@RequestBody BuscarDTO dto)
+    {
+         return service.findUsuarioByNombreCuenta(dto);
+    }
+
 
 }
 

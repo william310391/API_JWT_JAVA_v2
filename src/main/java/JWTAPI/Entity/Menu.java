@@ -20,4 +20,6 @@ import lombok.EqualsAndHashCode;
 public class Menu extends BaseEntity implements Serializable {
     @Column(name = "nombre")
     String nombre;
+    @Column(name = "url")
+    String url;
 }
