@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import JWTAPI.DTO.BuscarDTO;
 import JWTAPI.DTO.UsuarioDTO;
 import JWTAPI.Exception.ValidationGroup.Login;
+import JWTAPI.Service.MenuService;
 import JWTAPI.Service.UsuarioService;
 
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +26,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioService service;
+
+    @Autowired
+    MenuService _menuService;
     
     @GetMapping("/ping")
     public String ping() {
@@ -57,5 +62,18 @@ public class UsuarioController {
     public ResponseEntity<?> login(@Validated({Login.class})@RequestBody UsuarioDTO dto){
         return service.Login(dto);
     }
+
+    @PostMapping("/GetAccesoByIdUsuario")
+    public ResponseEntity<?> GetAccesoByIdUsuario(@RequestBody UsuarioDTO dto){
+        return _menuService.GetAccesoByIdUsuario(dto);
+    }
+
+    @PostMapping("/findUsuarioByNombreCuenta")
+    public ResponseEntity<?> findUsuarioByNombreCuenta(@RequestBody BuscarDTO dto)
+    {
+         return service.findUsuarioByNombreCuenta(dto);
+    }
+
+
 }
 

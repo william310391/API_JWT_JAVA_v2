@@ -30,7 +30,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        final String requestTokenHeader = request.getHeader("Authorization");
+        final String requestTokenHeader = request.getHeader("Authorization");     
+        StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
         if (StringUtils.startsWith(requestTokenHeader,"Bearer ")) {
             String jwtToken = requestTokenHeader.substring(7);
             try {               
@@ -56,7 +57,9 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
                 logger.error(e.getMessage());
             }
         } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+            if (!requestURL.toString().contains("/seguridad/")) {
+                logger.warn("JWT Token does not begin with Bearer String");
+            }           
         }
         filterChain.doFilter(request, response);           
     }

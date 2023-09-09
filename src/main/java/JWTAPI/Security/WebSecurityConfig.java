@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -37,13 +38,14 @@ public class WebSecurityConfig {
                     ApiResponse<String> apiResponse = new ApiResponse<String>(null);
                     apiResponse.setCodigoHTTP(HttpStatus.FORBIDDEN.value());
                     apiResponse.setResultadoDescripcion("Token no valido");
-                    apiResponse.setResultadoIndicador(0);
+                    apiResponse.setResultadoIndicador(false);
                     ObjectMapper mapper = new ObjectMapper();
                     response.setStatus(401);
                     response.setHeader("content-type", "application/json");
                     String responseMsg = mapper.writeValueAsString(apiResponse);
                     response.getWriter().write(responseMsg);}))
-
+                    
+                .cors(Customizer.withDefaults())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // .addFilter(jwtAuthenticationFilter)
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)

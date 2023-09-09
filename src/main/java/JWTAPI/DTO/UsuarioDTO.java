@@ -22,6 +22,6 @@ public class UsuarioDTO {
 	@NotNull(message = "campo requerido passssss",groups = Login.class)
 	@NotEmpty(message = "campo requerido passssss",groups = Login.class)
 	String contrasena;
-
+	boolean estado;
 }
 

@@ -11,13 +11,13 @@ public class ApiResponse<T> {
   public ApiResponse(T data) {
     Data = data;
     CodigoHTTP = 200;
-    ResultadoIndicador = 1;
+    ResultadoIndicador = true;
     ResultadoDescripcion = "OK";
   }
 
   int CodigoHTTP;
   String ResultadoDescripcion;
-  int ResultadoIndicador;
+  Boolean ResultadoIndicador;
   T Data;
   List<String> Erros;
 }
