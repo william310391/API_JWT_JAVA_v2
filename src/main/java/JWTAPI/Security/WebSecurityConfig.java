@@ -1,5 +1,7 @@
 package JWTAPI.Security;
 
+import java.io.IOException;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import JWTAPI.DTO.ApiResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
 @Configuration
@@ -25,31 +28,26 @@ public class WebSecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final JWTAuthorizationFilter jwtAuthorizationFilter;
+	public final static String[] PUBLIC_REQUEST_MATCHERS = { "/api/v1/auth/**", "/api-docs/**", "/swagger-ui/**","/api/seguridad/*" };
+
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http,AuthenticationManager authManager) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
 
-        return http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/seguridad/*").permitAll()
-                        .anyRequest().authenticated())
-                .exceptionHandling(x -> x.authenticationEntryPoint((request, response, authException) -> {
-                    ApiResponse<String> apiResponse = new ApiResponse<String>(null);
-                    apiResponse.setCodigoHTTP(HttpStatus.FORBIDDEN.value());
-                    apiResponse.setResultadoDescripcion("Token no valido");
-                    apiResponse.setResultadoIndicador(false);
-                    ObjectMapper mapper = new ObjectMapper();
-                    response.setStatus(401);
-                    response.setHeader("content-type", "application/json");
-                    String responseMsg = mapper.writeValueAsString(apiResponse);
-                    response.getWriter().write(responseMsg);}))
-                    
-                .cors(Customizer.withDefaults())
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // .addFilter(jwtAuthenticationFilter)
-                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+        http
+        .cors(Customizer.withDefaults())
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth.requestMatchers(PUBLIC_REQUEST_MATCHERS).permitAll()
+                .anyRequest()
+                .authenticated())
+        .exceptionHandling(x -> x.authenticationEntryPoint((request, response, authException) -> {
+            response = ErrorResponse(response);
+        }))
+        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+
     }
 
     @Bean
@@ -68,6 +66,19 @@ public class WebSecurityConfig {
 
         return authenticationManagerBuilder.build();
 
+    }
+
+    private HttpServletResponse ErrorResponse(HttpServletResponse response) throws IOException  {
+        ApiResponse<String> apiResponse = new ApiResponse<String>(null);
+        apiResponse.setCodigoHTTP(HttpStatus.FORBIDDEN.value());
+        apiResponse.setResultadoDescripcion("Token no valido");
+        apiResponse.setResultadoIndicador(false);
+        response.setStatus(401);
+        response.setHeader("content-type", "application/json");
+        ObjectMapper mapper = new ObjectMapper();
+        String responseMsg = mapper.writeValueAsString(apiResponse);
+        response.getWriter().write(responseMsg);
+        return response;
     }
 
 }

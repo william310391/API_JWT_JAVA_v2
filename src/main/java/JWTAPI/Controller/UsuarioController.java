@@ -16,11 +16,13 @@ import JWTAPI.DTO.UsuarioDTO;
 import JWTAPI.Exception.ValidationGroup.Login;
 import JWTAPI.Service.MenuService;
 import JWTAPI.Service.UsuarioService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import org.springframework.validation.annotation.Validated;
 
 
 @RestController
+@SecurityRequirement(name = "Bearer Authentication")
 @RequestMapping("/api/usuario")
 public class UsuarioController {
 
