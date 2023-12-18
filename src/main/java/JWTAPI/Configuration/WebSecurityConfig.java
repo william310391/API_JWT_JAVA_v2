@@ -1,4 +1,4 @@
-package JWTAPI.Security;
+package JWTAPI.Configuration;
 
 import java.io.IOException;
 
@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import JWTAPI.DTO.ApiResponse;
+import JWTAPI.Security.JWTAuthorizationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 

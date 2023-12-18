@@ -1,4 +1,4 @@
-package JWTAPI.Service;
+package JWTAPI.Service.Impl;
 
 import org.springframework.http.ResponseEntity;
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import JWTAPI.DTO.SeguridadDTO;
 import JWTAPI.Exception.ValidationGroup.Login;
-import JWTAPI.Service.SeguridadService;
+import JWTAPI.Service.Impl.SeguridadService;
 
 @RestController
 @RequestMapping("/api/seguridad")

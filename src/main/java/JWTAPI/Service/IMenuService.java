@@ -16,6 +16,7 @@ import JWTAPI.Repository.RolPaginaRepository;
 import JWTAPI.Repository.RolRepository;
 import JWTAPI.Repository.UsuarioRepository;
 import JWTAPI.Repository.UsuarioRolRepository;
+import JWTAPI.Service.Impl.MenuService;
 import JWTAPI.DTO.AccesosDTO;
 import JWTAPI.DTO.ApiResponse;
 import JWTAPI.DTO.MenuDTO;
@@ -33,7 +34,7 @@ import JWTAPI.Entity.UsuarioRol;
 import JWTAPI.Exception.BusinessException;
 
 @Service
-public class MenuServiceImpl implements MenuService{
+public class IMenuService implements MenuService{
 
     @Autowired
     private UsuarioRepository _usuarioReporepo;

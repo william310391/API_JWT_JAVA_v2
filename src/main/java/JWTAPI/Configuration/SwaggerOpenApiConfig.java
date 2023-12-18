@@ -1,4 +1,4 @@
-package JWTAPI.Security;
+package JWTAPI.Configuration;
 
 
 import org.springframework.context.annotation.Bean;

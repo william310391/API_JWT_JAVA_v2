@@ -17,9 +17,10 @@ import JWTAPI.DTO.MapperConfig.UsuarioMapper;
 import JWTAPI.Entity.Usuario;
 import JWTAPI.Exception.BusinessException;
 import JWTAPI.Repository.UsuarioRepository;
+import JWTAPI.Service.Impl.UsuarioService;
 
 @Service
-public class UsuarioServiceImpl implements UsuarioService {
+public class IUsuarioService implements UsuarioService {
 
     @Autowired
     private UsuarioRepository repo;  

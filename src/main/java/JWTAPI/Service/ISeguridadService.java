@@ -23,17 +23,18 @@ import JWTAPI.Entity.Seguridad;
 import JWTAPI.Exception.BusinessException;
 import JWTAPI.Repository.SeguridadRepository;
 import JWTAPI.Security.TokenUtils;
-import JWTAPI.Security.UserDetailServiceImpl;
+import JWTAPI.Security.UserDetailsServiceImpl;
+import JWTAPI.Service.Impl.SeguridadService;
 
 @Service
-public class SeguridadServiceImpl implements SeguridadService {
+public class ISeguridadService implements SeguridadService {
 
     @Autowired
     private SeguridadRepository seguridadRepository;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UserDetailServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     protected final Log logger = LogFactory.getLog(getClass());
 

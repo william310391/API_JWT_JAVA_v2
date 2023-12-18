@@ -14,7 +14,7 @@ import JWTAPI.Entity.Seguridad;
 import JWTAPI.Repository.SeguridadRepository;
 
 @Service
-public class UserDetailServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private SeguridadRepository seguridadRepository;

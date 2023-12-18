@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import JWTAPI.DTO.BuscarDTO;
 import JWTAPI.DTO.UsuarioDTO;
 import JWTAPI.Exception.ValidationGroup.Login;
-import JWTAPI.Service.MenuService;
-import JWTAPI.Service.UsuarioService;
+import JWTAPI.Service.Impl.MenuService;
+import JWTAPI.Service.Impl.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import org.springframework.validation.annotation.Validated;
