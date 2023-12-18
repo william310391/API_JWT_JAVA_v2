@@ -16,14 +16,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import JWTAPI.Configuration.WebSecurityConfig;
+
 
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter{
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -62,4 +62,22 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
         filterChain.doFilter(request, response);      
     }
     
+    @Override
+	protected boolean shouldNotFilter(HttpServletRequest request)
+			throws ServletException {
+		//String path = request.getRequestURI();
+		//return "/health".equals(path);
+
+		String path = ((HttpServletRequest) request).getRequestURI();
+		String[] allowedPaths = WebSecurityConfig.PUBLIC_REQUEST_MATCHERS;
+		for (var allowedPath : allowedPaths) {
+			allowedPath = allowedPath.replace("/*", "");
+			allowedPath = allowedPath.replace("/**", "");
+			if (path.contains(allowedPath)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

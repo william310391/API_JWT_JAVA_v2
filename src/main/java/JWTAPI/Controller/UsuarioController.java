@@ -41,7 +41,7 @@ public class UsuarioController {
         return service.findAll();
     }
 
-    @GetMapping("/findById")
+    @GetMapping("/findById/{usuarioId}")
     public ResponseEntity<?> findById(@RequestParam Integer usuarioId){
         return service.findById(usuarioId);
     }
